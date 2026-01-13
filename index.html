@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StakeVault | NFT Staking Platform</title>
-    <meta name="description"
-        content="Stake your NFTs and earn crypto rewards. The premier Web3 staking platform for digital collectibles.">
+    <meta name="description" content="Stake your NFTs and earn crypto rewards. The premier Web3 staking platform.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
@@ -15,14 +14,12 @@
 </head>
 
 <body>
-    <!-- Animated Background -->
     <div class="bg-animation">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
@@ -36,17 +33,14 @@
                 <li><a href="#rewards">Rewards</a></li>
                 <li><a href="#faq">FAQ</a></li>
             </ul>
-            <button class="connect-wallet-btn" id="connectWallet">
-                <span class="btn-glow"></span>
-                <span class="btn-text">Connect Wallet</span>
-            </button>
+            <!-- Web3Modal Button -->
+            <w3m-button></w3m-button>
             <button class="mobile-menu-btn" id="mobileMenu">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-badge">🔥 Earn up to 200% APY</div>
@@ -88,21 +82,17 @@
             <div class="nft-showcase">
                 <div class="floating-nft nft-1">
                     <img src="https://picsum.photos/seed/nft1/300/300" alt="NFT">
-                    <div class="nft-glow"></div>
                 </div>
                 <div class="floating-nft nft-2">
                     <img src="https://picsum.photos/seed/nft2/300/300" alt="NFT">
-                    <div class="nft-glow"></div>
                 </div>
                 <div class="floating-nft nft-3">
                     <img src="https://picsum.photos/seed/nft3/300/300" alt="NFT">
-                    <div class="nft-glow"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Supported Collections -->
     <section id="collections" class="collections">
         <div class="container">
             <div class="section-header">
@@ -113,7 +103,7 @@
             <div class="collections-grid">
                 <div class="collection-card">
                     <div class="collection-image">
-                        <img src="https://picsum.photos/seed/col1/400/400" alt="Bored Apes">
+                        <img src="https://picsum.photos/seed/col1/400/400" alt="Collection">
                         <div class="collection-badge">🔥 Hot</div>
                     </div>
                     <div class="collection-info">
@@ -126,7 +116,7 @@
                 </div>
                 <div class="collection-card">
                     <div class="collection-image">
-                        <img src="https://picsum.photos/seed/col2/400/400" alt="Mutant Apes">
+                        <img src="https://picsum.photos/seed/col2/400/400" alt="Collection">
                         <div class="collection-badge new">✨ New</div>
                     </div>
                     <div class="collection-info">
@@ -139,7 +129,7 @@
                 </div>
                 <div class="collection-card">
                     <div class="collection-image">
-                        <img src="https://picsum.photos/seed/col3/400/400" alt="Azuki">
+                        <img src="https://picsum.photos/seed/col3/400/400" alt="Collection">
                     </div>
                     <div class="collection-info">
                         <h3>Meta Droids</h3>
@@ -151,7 +141,7 @@
                 </div>
                 <div class="collection-card">
                     <div class="collection-image">
-                        <img src="https://picsum.photos/seed/col4/400/400" alt="Doodles">
+                        <img src="https://picsum.photos/seed/col4/400/400" alt="Collection">
                     </div>
                     <div class="collection-info">
                         <h3>Neon Cats</h3>
@@ -165,7 +155,6 @@
         </div>
     </section>
 
-    <!-- Staking Section -->
     <section id="stake" class="staking-section">
         <div class="container">
             <div class="section-header">
@@ -175,14 +164,13 @@
             </div>
 
             <div class="staking-container">
-                <!-- Wallet NFTs -->
                 <div class="staking-panel">
                     <div class="panel-header">
                         <h3>Your NFTs</h3>
                         <span class="nft-count" id="walletCount">0 NFTs</span>
                     </div>
                     <div class="nft-grid" id="walletNfts">
-                        <div class="empty-state" id="emptyWallet">
+                        <div class="empty-state">
                             <div class="empty-icon">🔗</div>
                             <p>Connect your wallet to view NFTs</p>
                         </div>
@@ -192,14 +180,13 @@
                     </button>
                 </div>
 
-                <!-- Staked NFTs -->
                 <div class="staking-panel">
                     <div class="panel-header">
                         <h3>Staked NFTs</h3>
                         <span class="nft-count" id="stakedCount">0 NFTs</span>
                     </div>
                     <div class="nft-grid" id="stakedNfts">
-                        <div class="empty-state" id="emptyStaked">
+                        <div class="empty-state">
                             <div class="empty-icon">📦</div>
                             <p>No NFTs staked yet</p>
                         </div>
@@ -212,7 +199,6 @@
         </div>
     </section>
 
-    <!-- Rewards Section -->
     <section id="rewards" class="rewards-section">
         <div class="container">
             <div class="section-header">
@@ -260,7 +246,6 @@
         </div>
     </section>
 
-    <!-- How It Works -->
     <section class="how-it-works">
         <div class="container">
             <div class="section-header">
@@ -296,7 +281,6 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
     <section id="faq" class="faq-section">
         <div class="container">
             <div class="section-header">
@@ -314,20 +298,20 @@
                     </button>
                     <div class="faq-answer">
                         <p>NFT staking allows you to lock your NFTs in a smart contract and earn passive rewards in the
-                            form of tokens. Your NFTs remain safely stored while generating yield.</p>
+                            form of tokens.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question">
-                        <span>What are the supported collections?</span>
+                        <span>What wallets are supported?</span>
                         <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <path d="M6 9l6 6 6-6" />
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>We currently support Cyber Apes, Pixel Punks, Meta Droids, and Neon Cats collections. New
-                            collections are added regularly based on community votes.</p>
+                        <p>We support MetaMask, WalletConnect, Coinbase Wallet, Trust Wallet, and 100+ other wallets
+                            through Web3Modal.</p>
                     </div>
                 </div>
                 <div class="faq-item">
@@ -339,8 +323,8 @@
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Rewards are calculated based on the rarity of your NFT, the collection's base APY, and the
-                            duration of staking. Rarer NFTs earn higher rewards!</p>
+                        <p>Rewards are calculated based on the rarity of your NFT and the duration of staking. Rarer
+                            NFTs earn higher rewards!</p>
                     </div>
                 </div>
                 <div class="faq-item">
@@ -352,15 +336,13 @@
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Yes! There's no lock-up period. You can unstake your NFTs at any time and they'll be returned
-                            to your wallet immediately.</p>
+                        <p>Yes! There's no lock-up period. You can unstake your NFTs at any time.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -404,42 +386,10 @@
         </div>
     </footer>
 
-    <!-- Wallet Modal -->
-    <div class="modal" id="walletModal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <button class="modal-close" id="closeModal">&times;</button>
-            <h3>Connect Your Wallet</h3>
-            <p>Choose your preferred wallet to connect</p>
-            <div class="wallet-options">
-                <button class="wallet-option" data-wallet="metamask">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
-                    <span>MetaMask</span>
-                </button>
-                <button class="wallet-option" data-wallet="walletconnect">
-                    <img src="https://seeklogo.com/images/W/walletconnect-logo-EE83B50C97-seeklogo.com.png"
-                        alt="WalletConnect">
-                    <span>WalletConnect</span>
-                </button>
-                <button class="wallet-option" data-wallet="coinbase">
-                    <img src="https://seeklogo.com/images/C/coinbase-coin-logo-C86F46D7B8-seeklogo.com.png"
-                        alt="Coinbase">
-                    <span>Coinbase Wallet</span>
-                </button>
-                <button class="wallet-option" data-wallet="phantom">
-                    <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Phantom">
-                    <span>Phantom</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Web3 Libraries for Real Wallet Connection -->
-    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
-    <script src="app.js"></script>
+    <!-- Web3Modal SDK -->
+    <script type="module" src="app.js"></script>
 </body>
 
 </html>
