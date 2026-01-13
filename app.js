@@ -1,9 +1,7 @@
-// ===== StakeVault - Direct MetaMask/Wallet Connection =====
+// ===== StakeVault - Pure JavaScript Wallet Connection =====
+// No external libraries needed - uses window.ethereum directly
 
-// State
 let walletAddress = null;
-let provider = null;
-let signer = null;
 
 // DOM Elements
 const connectBtn = document.getElementById('connectWallet');
@@ -33,9 +31,8 @@ function scrollToSection(id) {
 }
 window.scrollToSection = scrollToSection;
 
-// Connect Wallet
+// Connect Wallet - Pure JavaScript, no libraries
 async function connectWallet() {
-    // Check if MetaMask is installed
     if (typeof window.ethereum === 'undefined') {
         showToast('Please install MetaMask!', 'error');
         window.open('https://metamask.io/download/', '_blank');
@@ -45,8 +42,10 @@ async function connectWallet() {
     try {
         showToast('Connecting wallet...', 'info');
 
-        // Request accounts
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // Request accounts using raw ethereum API
+        const accounts = await window.ethereum.request({
+            method: 'eth_requestAccounts'
+        });
 
         if (accounts.length === 0) {
             showToast('No accounts found', 'error');
@@ -54,8 +53,10 @@ async function connectWallet() {
         }
 
         walletAddress = accounts[0];
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        signer = provider.getSigner();
+
+        // Get chain ID
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        console.log('Connected to chain:', chainId);
 
         // Update UI
         connectBtn.querySelector('.btn-text').textContent = shortenAddress(walletAddress);
@@ -72,16 +73,12 @@ async function connectWallet() {
             </div>
         `;
 
-        // Get network
-        const network = await provider.getNetwork();
-        console.log('Connected to:', network.name);
-
     } catch (error) {
         console.error('Connection error:', error);
         if (error.code === 4001) {
-            showToast('Connection rejected', 'error');
+            showToast('Connection rejected by user', 'error');
         } else {
-            showToast('Connection failed: ' + error.message, 'error');
+            showToast('Connection failed', 'error');
         }
     }
 }
@@ -89,9 +86,6 @@ async function connectWallet() {
 // Disconnect Wallet
 function disconnectWallet() {
     walletAddress = null;
-    provider = null;
-    signer = null;
-
     connectBtn.querySelector('.btn-text').textContent = 'Connect Wallet';
     connectBtn.classList.remove('connected');
 
@@ -172,4 +166,4 @@ stakedNftsGrid.innerHTML = `<div class="empty-state"><div class="empty-icon">�
 stakedCount.textContent = '0 NFTs';
 walletCount.textContent = '0 NFTs';
 
-console.log('🚀 StakeVault loaded!');
+console.log('🚀 StakeVault loaded - Pure JS, no libraries!');
