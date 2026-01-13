@@ -1,9 +1,41 @@
-// ===== StakeVault - Pure JavaScript Wallet Connection =====
-// No external libraries needed - uses window.ethereum directly
+// ===== StakeVault - WalletConnect Web3Modal =====
+import { createWeb3Modal, defaultConfig } from 'https://esm.sh/@web3modal/ethers@5.1.11';
 
+// Your WalletConnect Project ID
+const projectId = 'bd3be74b534af2c489b1367f49dca9ce';
+
+// Chains
+const mainnet = {
+    chainId: 1,
+    name: 'Ethereum',
+    currency: 'ETH',
+    explorerUrl: 'https://etherscan.io',
+    rpcUrl: 'https://cloudflare-eth.com'
+};
+
+const metadata = {
+    name: 'StakeVault',
+    description: 'NFT Staking Platform',
+    url: 'https://cryptostaking.website',
+    icons: ['https://cryptostaking.website/favicon.ico']
+};
+
+// Create Web3Modal
+const modal = createWeb3Modal({
+    ethersConfig: defaultConfig({ metadata }),
+    chains: [mainnet],
+    projectId,
+    enableAnalytics: false,
+    themeMode: 'dark',
+    themeVariables: {
+        '--w3m-accent': '#8b5cf6'
+    }
+});
+
+// State
 let walletAddress = null;
 
-// DOM Elements
+// DOM
 const connectBtn = document.getElementById('connectWallet');
 const walletNftsGrid = document.getElementById('walletNfts');
 const stakedNftsGrid = document.getElementById('stakedNfts');
@@ -11,7 +43,7 @@ const walletCount = document.getElementById('walletCount');
 const stakedCount = document.getElementById('stakedCount');
 const toastContainer = document.getElementById('toastContainer');
 
-// Toast notification
+// Utils
 function showToast(msg, type = 'info') {
     const t = document.createElement('div');
     t.className = `toast ${type}`;
@@ -20,110 +52,48 @@ function showToast(msg, type = 'info') {
     setTimeout(() => t.remove(), 4000);
 }
 
-// Shorten address
 function shortenAddress(addr) {
     return addr ? `${addr.slice(0, 6)}...${addr.slice(-4)}` : '';
 }
 
-// Scroll to section
-function scrollToSection(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-}
-window.scrollToSection = scrollToSection;
+window.scrollToSection = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
-// Connect Wallet - Pure JavaScript, no libraries
-async function connectWallet() {
-    if (typeof window.ethereum === 'undefined') {
-        showToast('Please install MetaMask!', 'error');
-        window.open('https://metamask.io/download/', '_blank');
-        return;
-    }
-
-    try {
-        showToast('Connecting wallet...', 'info');
-
-        // Request accounts using raw ethereum API
-        const accounts = await window.ethereum.request({
-            method: 'eth_requestAccounts'
-        });
-
-        if (accounts.length === 0) {
-            showToast('No accounts found', 'error');
-            return;
-        }
-
-        walletAddress = accounts[0];
-
-        // Get chain ID
-        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-        console.log('Connected to chain:', chainId);
-
-        // Update UI
-        connectBtn.querySelector('.btn-text').textContent = shortenAddress(walletAddress);
+// Listen for connection
+modal.subscribeProvider(({ address, isConnected }) => {
+    if (isConnected && address) {
+        walletAddress = address;
+        connectBtn.querySelector('.btn-text').textContent = shortenAddress(address);
         connectBtn.classList.add('connected');
+        showToast(`Connected: ${shortenAddress(address)}`, 'success');
 
-        showToast(`Connected: ${shortenAddress(walletAddress)}`, 'success');
-
-        // Update NFT panel
         walletNftsGrid.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">✅</div>
                 <p>Wallet Connected!</p>
-                <small>${shortenAddress(walletAddress)}</small>
+                <small>${shortenAddress(address)}</small>
             </div>
         `;
-
-    } catch (error) {
-        console.error('Connection error:', error);
-        if (error.code === 4001) {
-            showToast('Connection rejected by user', 'error');
-        } else {
-            showToast('Connection failed', 'error');
-        }
-    }
-}
-
-// Disconnect Wallet
-function disconnectWallet() {
-    walletAddress = null;
-    connectBtn.querySelector('.btn-text').textContent = 'Connect Wallet';
-    connectBtn.classList.remove('connected');
-
-    walletNftsGrid.innerHTML = `
-        <div class="empty-state">
-            <div class="empty-icon">🔗</div>
-            <p>Connect your wallet to view NFTs</p>
-        </div>
-    `;
-
-    showToast('Wallet disconnected', 'info');
-}
-
-// Handle wallet button click
-connectBtn.addEventListener('click', () => {
-    if (walletAddress) {
-        disconnectWallet();
     } else {
-        connectWallet();
+        walletAddress = null;
+        connectBtn.querySelector('.btn-text').textContent = 'Connect Wallet';
+        connectBtn.classList.remove('connected');
+        walletNftsGrid.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">🔗</div>
+                <p>Connect your wallet to view NFTs</p>
+            </div>
+        `;
     }
 });
 
-// Listen for account changes
-if (window.ethereum) {
-    window.ethereum.on('accountsChanged', (accounts) => {
-        if (accounts.length === 0) {
-            disconnectWallet();
-        } else {
-            walletAddress = accounts[0];
-            connectBtn.querySelector('.btn-text').textContent = shortenAddress(walletAddress);
-            showToast('Account changed', 'info');
-        }
-    });
-
-    window.ethereum.on('chainChanged', () => {
-        window.location.reload();
-    });
-}
+// Connect button click
+connectBtn.addEventListener('click', () => {
+    if (walletAddress) {
+        modal.disconnect();
+    } else {
+        modal.open();
+    }
+});
 
 // FAQ
 document.querySelectorAll('.faq-item').forEach(item => {
@@ -134,7 +104,7 @@ document.querySelectorAll('.faq-item').forEach(item => {
     });
 });
 
-// Counter Animation
+// Counters
 document.querySelectorAll('[data-count]').forEach(counter => {
     const target = parseInt(counter.dataset.count);
     let current = 0;
@@ -154,7 +124,7 @@ document.querySelectorAll('[data-count]').forEach(counter => {
     observer.observe(counter);
 });
 
-// Navbar Scroll
+// Navbar
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
     navbar.style.padding = window.scrollY > 50 ? '12px 0' : '16px 0';
@@ -166,4 +136,4 @@ stakedNftsGrid.innerHTML = `<div class="empty-state"><div class="empty-icon">�
 stakedCount.textContent = '0 NFTs';
 walletCount.textContent = '0 NFTs';
 
-console.log('🚀 StakeVault loaded - Pure JS, no libraries!');
+console.log('🚀 StakeVault with WalletConnect loaded!');
