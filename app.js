@@ -1,34 +1,38 @@
-// ===== StakeVault - Web3Modal Integration =====
-import { createWeb3Modal, defaultConfig } from 'https://cdn.jsdelivr.net/npm/@web3modal/ethers@5.1.11/+esm';
+// ===== StakeVault - Reown AppKit Integration =====
+import { createAppKit } from 'https://cdn.jsdelivr.net/npm/@reown/appkit@1.6.8/+esm';
+import { EthersAdapter } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-adapter-ethers@1.6.8/+esm';
+import { mainnet, polygon, arbitrum, base, sepolia } from 'https://cdn.jsdelivr.net/npm/@reown/appkit/networks/+esm';
 
 const projectId = 'bd3be74b534af2c489b1367f49dca9ce';
-
-const mainnet = { chainId: 1, name: 'Ethereum', currency: 'ETH', explorerUrl: 'https://etherscan.io', rpcUrl: 'https://eth.llamarpc.com' };
-const polygon = { chainId: 137, name: 'Polygon', currency: 'MATIC', explorerUrl: 'https://polygonscan.com', rpcUrl: 'https://polygon.llamarpc.com' };
-const arbitrum = { chainId: 42161, name: 'Arbitrum', currency: 'ETH', explorerUrl: 'https://arbiscan.io', rpcUrl: 'https://arb1.arbitrum.io/rpc' };
-const base = { chainId: 8453, name: 'Base', currency: 'ETH', explorerUrl: 'https://basescan.org', rpcUrl: 'https://mainnet.base.org' };
-const sepolia = { chainId: 11155111, name: 'Sepolia', currency: 'ETH', explorerUrl: 'https://sepolia.etherscan.io', rpcUrl: 'https://rpc.sepolia.org' };
 
 const metadata = {
     name: 'StakeVault',
     description: 'NFT Staking Platform',
     url: window.location.origin,
-    icons: ['https://avatars.githubusercontent.com/u/37784886']
+    icons: ['https://cryptostaking.website/favicon.ico']
 };
 
-const ethersConfig = defaultConfig({ metadata, enableEIP6963: true, enableInjected: true, enableCoinbase: true });
+const ethersAdapter = new EthersAdapter();
 
-const modal = createWeb3Modal({
-    ethersConfig,
-    chains: [mainnet, polygon, arbitrum, base, sepolia],
+const modal = createAppKit({
+    adapters: [ethersAdapter],
+    networks: [mainnet, polygon, arbitrum, base, sepolia],
+    metadata,
     projectId,
-    enableAnalytics: false,
     themeMode: 'dark',
-    themeVariables: { '--w3m-accent': '#8b5cf6', '--w3m-border-radius-master': '12px' }
+    themeVariables: {
+        '--w3m-accent': '#8b5cf6',
+        '--w3m-border-radius-master': '12px'
+    },
+    features: {
+        analytics: false,
+        email: true,
+        socials: ['google', 'x', 'discord', 'github']
+    }
 });
 
 // State
-const state = { walletAddress: null, chainId: null, isConnected: false };
+const state = { walletAddress: null, isConnected: false };
 
 // DOM
 const elements = {
@@ -54,26 +58,35 @@ function showToast(msg, type = 'info') {
 
 function shortenAddress(addr) { return addr ? `${addr.slice(0, 6)}...${addr.slice(-4)}` : ''; }
 
-// Web3Modal Events
-modal.subscribeProvider(({ address, chainId, isConnected }) => {
-    state.walletAddress = address;
-    state.chainId = chainId;
-    state.isConnected = isConnected;
+// Reown Events
+modal.subscribeProviders(state => {
+    if (state.eip155) {
+        console.log('Provider connected:', state);
+    }
+});
 
-    if (isConnected && address) {
-        showToast(`Connected: ${shortenAddress(address)}`, 'success');
-        elements.connectBtn.querySelector('.btn-text').textContent = shortenAddress(address);
-        elements.connectBtn.classList.add('connected');
+modal.subscribeAccount(account => {
+    if (account.address) {
+        state.walletAddress = account.address;
+        state.isConnected = true;
+        showToast(`Connected: ${shortenAddress(account.address)}`, 'success');
+        if (elements.connectBtn) {
+            elements.connectBtn.querySelector('.btn-text').textContent = shortenAddress(account.address);
+            elements.connectBtn.classList.add('connected');
+        }
         elements.walletNftsGrid.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">🎨</div>
                 <p>Wallet connected!</p>
-                <small>${shortenAddress(address)}</small>
+                <small>${shortenAddress(account.address)}</small>
             </div>
         `;
     } else {
-        elements.connectBtn.querySelector('.btn-text').textContent = 'Connect Wallet';
-        elements.connectBtn.classList.remove('connected');
+        state.isConnected = false;
+        if (elements.connectBtn) {
+            elements.connectBtn.querySelector('.btn-text').textContent = 'Connect Wallet';
+            elements.connectBtn.classList.remove('connected');
+        }
         elements.walletNftsGrid.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">🔗</div>
@@ -136,4 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.stakedNftsGrid.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><p>No NFTs staked yet</p></div>`;
     elements.stakedCount.textContent = '0 NFTs';
     elements.walletCount.textContent = '0 NFTs';
+    console.log('🚀 StakeVault with Reown AppKit loaded!');
 });
