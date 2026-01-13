@@ -33,8 +33,12 @@
                 <li><a href="#rewards">Rewards</a></li>
                 <li><a href="#faq">FAQ</a></li>
             </ul>
-            <!-- Web3Modal Button -->
+            <!-- Web3Modal Connect Button -->
             <w3m-button></w3m-button>
+            <button class="connect-wallet-btn" id="connectWallet" onclick="openWeb3Modal()">
+                <span class="btn-glow"></span>
+                <span class="btn-text">Connect Wallet</span>
+            </button>
             <button class="mobile-menu-btn" id="mobileMenu">
                 <span></span><span></span><span></span>
             </button>
@@ -310,8 +314,8 @@
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>We support MetaMask, WalletConnect, Coinbase Wallet, Trust Wallet, and 100+ other wallets
-                            through Web3Modal.</p>
+                        <p>We support MetaMask, WalletConnect, Coinbase Wallet, Trust Wallet, and 100+ other wallets.
+                        </p>
                     </div>
                 </div>
                 <div class="faq-item">
@@ -323,8 +327,7 @@
                         </svg>
                     </button>
                     <div class="faq-answer">
-                        <p>Rewards are calculated based on the rarity of your NFT and the duration of staking. Rarer
-                            NFTs earn higher rewards!</p>
+                        <p>Rewards are calculated based on the rarity of your NFT and the duration of staking.</p>
                     </div>
                 </div>
                 <div class="faq-item">
@@ -388,7 +391,6 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Web3Modal SDK -->
     <script type="module" src="app.js"></script>
 </body>
 
