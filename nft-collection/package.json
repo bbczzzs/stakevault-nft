@@ -1,0 +1,17 @@
+{
+    "name": "stakevault-nft-collection",
+    "version": "1.0.0",
+    "scripts": {
+        "compile": "npx hardhat compile",
+        "test": "npx hardhat test",
+        "deploy:sepolia": "npx hardhat run scripts/deploy.js --network sepolia",
+        "deploy:mainnet": "npx hardhat run scripts/deploy.js --network mainnet",
+        "verify": "npx hardhat verify --network sepolia"
+    },
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+        "@openzeppelin/contracts": "^5.0.0",
+        "hardhat": "^2.19.0",
+        "dotenv": "^16.3.0"
+    }
+}

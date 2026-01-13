@@ -1,0 +1,27 @@
+{
+    "name": "StakeVault #2",
+    "description": "StakeVault Collection - Cyber Dragon NFT. Stake and earn VAULT rewards!",
+    "image": "ipfs://YOUR_CID_HERE/2.png",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Cyber Dragon"
+        },
+        {
+            "trait_type": "Background",
+            "value": "Space Galaxy"
+        },
+        {
+            "trait_type": "Glow",
+            "value": "Fire"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Epic"
+        },
+        {
+            "trait_type": "Power Level",
+            "value": 88
+        }
+    ]
+}

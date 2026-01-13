@@ -1,0 +1,27 @@
+{
+    "name": "StakeVault #1",
+    "description": "StakeVault Collection - Cyber Creature NFT. Stake and earn VAULT rewards!",
+    "image": "ipfs://YOUR_CID_HERE/1.png",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Cyber Creature"
+        },
+        {
+            "trait_type": "Background",
+            "value": "Circuit Board"
+        },
+        {
+            "trait_type": "Glow",
+            "value": "Purple"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },
+        {
+            "trait_type": "Power Level",
+            "value": 95
+        }
+    ]
+}
