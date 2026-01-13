@@ -33,9 +33,7 @@
                 <li><a href="#rewards">Rewards</a></li>
                 <li><a href="#faq">FAQ</a></li>
             </ul>
-            <!-- Reown AppKit Button -->
-            <appkit-button></appkit-button>
-            <button class="connect-wallet-btn" id="connectWallet" onclick="openWeb3Modal()">
+            <button class="connect-wallet-btn" id="connectWallet">
                 <span class="btn-glow"></span>
                 <span class="btn-text">Connect Wallet</span>
             </button>
@@ -391,7 +389,9 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <script type="module" src="app.js"></script>
+    <!-- Ethers.js for wallet connection -->
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>
